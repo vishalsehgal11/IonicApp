@@ -3,14 +3,15 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Hello Ionic</ion-title>
+    <ion-title>Latest News</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let data of newsData?.articles" (click)="presentModal()">
+    <ion-list-header>{{page}}</ion-list-header>
+    <button ion-item *ngFor="let data of newsData?.articles" (click)="presentModal(data)">
       <ion-avatar item-start>
         <img src={{data?.urlToImage}}>
       </ion-avatar>
