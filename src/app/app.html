@@ -2,14 +2,23 @@
 
   <ion-header>
     <ion-toolbar>
-      <ion-title>News Categories</ion-title>
+      <ion-title>News</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
-      <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+      <ion-list-header>By Categories</ion-list-header>
+      <button ion-item *ngFor="let category of newsCategories; let i = index" (click)="loadNews(category, i)">
+        {{category}}
+      </button>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header>By Source</ion-list-header>
+      <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+      <button ion-item *ngFor="let source of newsSources; let i = index" (click)="loadNews(source, i + 5)">
+        {{source}}
       </button>
     </ion-list>
   </ion-content>

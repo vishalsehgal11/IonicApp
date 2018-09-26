@@ -26,30 +26,41 @@ export class MyApp {
     public splashScreen: SplashScreen
   ) {
     this.initializeApp();
+    this.newsCategories = ['Top Headlines', 'World News', 'Sports News', 'India News', 'Google News'];
+    this.initializeSources();
+    
+  }
 
-    // set our app's pages
-    this.pages = [
-      { title: 'Top Headlines', component: HelloIonicPage },
-      { title: 'World News', component: HelloIonicPage },
-      { title: 'Sports News', component: HelloIonicPage },
-      { title: 'India News', component: HelloIonicPage },
-      { title: 'Google News', component: HelloIonicPage },
-    ];
+  initializeSources() {
+    this.newsSources = ['ABC News', 'Al Jazeera', 'Australian Financial Review', 'BBC News', 'BBC Sport',
+      'Bild', 'Blasting News (BR)', 'Bloomberg', 'Business Insider', 'Buzzfeed', 'CBC News', 'CNBC', 'CNN', 
+      'Daily Mail', 'Entertainment Weekly', 'ESPN', 'ESPN Cric Info', 'Financial Post', 'Financial Times',
+      'Fortune', 'Fox News', 'Google News', 'Hacker News', 'Independent', 'InfoMoney', 'Medical News Today',
+      'Mirror', 'MSNBC', 'National Geographic', 'New York Magazine', 'Reuters', 'TechCrunch (CN)', 'TechRadar',
+      'The Economist', 'The Hindu', 'The Huffington Post', 'The New York Times', 'the-telegraph', 'The Times of India',
+      'The Wall Street Journal', 'The Washington Post', 'The Washington Times', 'Time', 'USA Today'];
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.show();
+      this.menu.open();
     });
   }
 
-  openPage(page) {
-    // close the menu when clicking a link from the menu
+  loadNews(title, i) {
     this.menu.close();
-    // navigate to the new page if it is not the current page
-    this.nav.setRoot(page.component, {'pageData': page.title});
+    this.nav.setRoot(HelloIonicPage, {'index': i, 'title': title});
+  }
+
+  getItems(ev: any) {
+    this.initializeSources();
+    const val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.newsSources = this.newsSources.filter((source) => {
+        return (source.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
   }
 }

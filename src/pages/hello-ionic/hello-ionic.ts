@@ -13,47 +13,29 @@ import { NavParams } from 'ionic-angular';
 })
 export class HelloIonicPage {
 	newsData: any;
-	page: string;
+	title: string;
+	newsIndex: number;
 	newsSource: any;
+	newsSources = ['google-news-in', 'google-news', 'espn', 'google-news-in', 'google-news', 'abc-news',
+		'al-jazeera-english', 'australian-financial-review', 'bbc-news', 'bbc-sport', 'bild', 'blasting-news-br',
+		'bloomberg','business-insider', 'buzzfeed', 'cbc-news', 'cnbc', 'cnn', 'daily-mail', 'entertainment-weekly',
+		'espn', 'espn-cric-info', 'financial-post', 'financial-times', 'fortune', 'fox-news', 'google-news', 'hacker-news',
+		'independent', 'info-money', 'medical-news-today', 'mirror', 'msnbc', 'national-geographic', 'new-york-magazine',
+		'reuters', 'techcrunch-cn', 'techradar', 'the-economist', 'the-hindu', 'the-huffington-post', 'the-new-york-times',
+		'The Telegraph', 'the-times-of-india', 'the-wall-street-journal', 'the-washington-post', 'the-washington-times', 
+		'time', 'usa-today'];
 
   	constructor(public http: HttpClient, public modalCtrl: ModalController, public navParams: NavParams) {
-  		this.page = this.navParams.get('pageData') || 'Top Headlines';
-  		this.fetchUrl();
+  		this.newsIndex = this.navParams.get('index') || 0;
+  		this.title = this.navParams.get('title') || 'Top Headlines';
+  		this.fetchNews();
   	}
 
-  	fetchUrl() {
-  		let newsParams = '', apiUrl = '';
-		if (this.page==='Top Headlines') { 
-	    	newsParams = 'country=in';
-	   	} else if (this.page==='World News') {
-			newsParams = 'sources=google-news';
-		} else if (this.page==='Sports News') { 
-	    	newsParams = ['sources=espn', 'sources=talksport'];  
-	   	} else if (this.page==='Technology News') { 
-	    	newsParams = 'sources=techcrunch';  
-	   	} else if (this.page==='India News') { 
-	    	newsParams = 'sources=google-news-in';  
-	   	} else if (this.page==='Google News') { 
-	    	newsParams = 'sources=google-news'; 
-	   	} else if (this.page==='Financial News') { 
-	   		newsParams = 'sources=financial-times';
-	   	} else {
-	      	apiUrl = 'country=in'; 
-	   	}
-	   	if(typeof newsParams == 'string') {
-	   		apiUrl = 'https://newsapi.org/v2/top-headlines?'+newsParams+'&apiKey=dc1ba9d18765494e892e2bc09b0522ca';
-	   		this.fetchNews(apiUrl);
-  		} else { 
-  			for (let source of newsParams) {
-  				apiUrl = 'https://newsapi.org/v2/top-headlines?'+source+'&apiKey=dc1ba9d18765494e892e2bc09b0522ca';
-  				this.fetchNews(apiUrl);
-  			}
-  		}
-  	}
-
-  	fetchNews(url) {
+  	fetchNews() {
+  		let apiUrl = '';
+	   	apiUrl = 'https://newsapi.org/v2/top-headlines?sources='+this.newsSources[this.newsIndex]+'&apiKey=dc1ba9d18765494e892e2bc09b0522ca';
 	  	return new Promise(resolve => {
-	    	this.http.get(url).subscribe(data => {
+	    	this.http.get(apiUrl).subscribe(data => {
 	    		this.newsData = data;
 	      		resolve(data);
 	   		}, err => {

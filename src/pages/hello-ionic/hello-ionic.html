@@ -10,7 +10,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-list-header>{{page}}</ion-list-header>
+    <ion-list-header>{{title}}</ion-list-header>
     <button ion-item *ngFor="let data of newsData?.articles" (click)="presentModal(data)">
       <ion-avatar item-start>
         <img src={{data?.urlToImage}}>

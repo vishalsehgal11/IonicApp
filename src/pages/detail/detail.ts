@@ -9,12 +9,17 @@ export class DetailsPage {
 	img: string;
   	description: any;
   	content: any;
+  	data: any;
 
   	constructor(public navParams: NavParams) {
-	  	let myValue = this.navParams.get('myValue');
-	  	this.img = myValue.urlToImage;
-	    this.description = myValue.description;
-	    this.content = myValue.content;
+	  	this.data = this.navParams.get('myValue');
+	  	this.img = this.data.urlToImage;
+	    this.description = this.data.description;
+	    this.content = this.data.content ? this.data.content.substring(0, this.data.content.length - 15) + '...' : '';
+	}
+
+	openUrl() {
+		window.open(this.data.url, '_system');
 	}
 
 }
